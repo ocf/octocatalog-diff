@@ -1,7 +1,0 @@
----
-structure:
-  value: bar
-  array:
-  - foo
-  - bar
-  - baz
