@@ -1,0 +1,17 @@
+#!/usr/bin/make -f
+
+export GEM2DEB_TEST_RUNNER = --check-dependencies
+
+VERSION=$(shell dpkg-parsechangelog -SVersion)
+
+%:
+	dh $@ --buildsystem=ruby --with ruby
+
+
+override_dh_auto_install:
+	dh_auto_install
+	rm debian/octocatalog-diff/usr/lib/ruby/vendor_ruby/octocatalog-diff/external/pson/LICENSE
+	sed -e 's/@VERSION@/$(VERSION)/' debian/version.rb > debian/octocatalog-diff/usr/lib/ruby/vendor_ruby/octocatalog-diff/version.rb
+
+override_dh_installdocs:
+	dh_installdocs -Xdev/

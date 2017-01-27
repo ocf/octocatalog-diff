@@ -1,0 +1,5 @@
+octocatalog-diff (0.6.1-1) unstable; urgency=medium
+
+  * Initial release (Closes: #852812)
+
+ -- Apollon Oikonomopoulos <apoikos@debian.org>  Fri, 27 Jan 2017 16:19:20 +0200

@@ -1,0 +1,26 @@
+Author: Apollon Oikonomopoulos <apoikos@debian.org>
+Description: Relax dependency versions
+Last-Update: 2017-01-27
+Forwarded: no
+--- a/octocatalog-diff.gemspec
++++ b/octocatalog-diff.gemspec
+@@ -26,8 +26,8 @@
+     s.specification_version = 4
+ 
+     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+-      s.add_runtime_dependency(%q<diffy>.freeze, [">= 3.1.0"])
+-      s.add_runtime_dependency(%q<hashdiff>.freeze, [">= 0.3.0"])
++      s.add_runtime_dependency(%q<diffy>.freeze, [">= 3.0.6"])
++      s.add_runtime_dependency(%q<hashdiff>.freeze, [">= 0.2.3"])
+       s.add_runtime_dependency(%q<httparty>.freeze, [">= 0.11.0"])
+       s.add_runtime_dependency(%q<parallel>.freeze, [">= 1.9.0"])
+       s.add_development_dependency(%q<parallel_tests>.freeze, ["= 2.7.1"])
+@@ -37,7 +37,7 @@
+       s.add_development_dependency(%q<rspec>.freeze, ["~> 3.4.0"])
+       s.add_development_dependency(%q<rspec-retry>.freeze, ["= 0.5.0"])
+       s.add_development_dependency(%q<rubocop>.freeze, ["~> 0.35"])
+-      s.add_runtime_dependency(%q<rugged>.freeze, [">= 0.25.0b2"])
++      s.add_runtime_dependency(%q<rugged>.freeze, [">= 0.24.0"])
+       s.add_development_dependency(%q<simplecov>.freeze, [">= 0"])
+       s.add_development_dependency(%q<simplecov-json>.freeze, [">= 0"])
+     else
