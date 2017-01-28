@@ -1,5 +1,5 @@
 Source: octocatalog-diff
-Section: ruby
+Section: admin
 Priority: optional
 Maintainer: Puppet Package Maintainers <pkg-puppet-devel@lists.alioth.debian.org>
 Uploaders: Apollon Oikonomopoulos <apoikos@debian.org>
