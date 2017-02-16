@@ -1,3 +1,11 @@
+octocatalog-diff (1.0.1-1) unstable; urgency=medium
+
+  * New upstream release
+  * Set Section to admin
+  * dh_installdocs: ignore CHANGELOG.md
+
+ -- Apollon Oikonomopoulos <apoikos@debian.org>  Thu, 16 Feb 2017 10:21:39 +0200
+
 octocatalog-diff (0.6.1-1) unstable; urgency=medium
 
   * Initial release (Closes: #852812)
