@@ -14,4 +14,4 @@ override_dh_auto_install:
 	sed -e 's/@VERSION@/$(VERSION)/' debian/version.rb > debian/octocatalog-diff/usr/lib/ruby/vendor_ruby/octocatalog-diff/version.rb
 
 override_dh_installdocs:
-	dh_installdocs -Xdev/
+	dh_installdocs -Xdev/ -XCHANGELOG.md
