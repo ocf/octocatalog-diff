@@ -18,11 +18,12 @@ See also:
 - [Building catalogs instead of diffing catalogs](/doc/advanced-catalog-only.md)
 - [Enabling storeconfigs for exported resources in PuppetDB](/doc/advanced-storeconfigs.md)
 - [Fetching catalogs from Puppet Master / PuppetServer](/doc/advanced-puppet-master.md)
+- [Overriding ENC parameters](/doc/advanced-override-enc.md)
 - [Overriding facts](/doc/advanced-override-facts.md)
 - [Puppet Enterprise node classification service](/doc/advanced-pe-enc.md)
 - [Using `octocatalog-diff` without git](/doc/advanced-using-without-git.md)
 - [Catalog validation](/doc/advanced-catalog-validation.md)
-- [Environment setup](/doc/advanced-environment.md)
+- [Environment setup](/doc/advanced-environments.md)
 
 ### Controlling output
 
