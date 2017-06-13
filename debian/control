@@ -8,7 +8,6 @@ Build-Depends: debhelper (>= 9~),
                ruby-diffy,
                ruby-hashdiff,
                ruby-httparty (>= 0.11.0),
-               ruby-parallel (>= 1.9.0),
                ruby-rugged
 Standards-Version: 3.9.8
 Vcs-Git: https://anonscm.debian.org/git/pkg-puppet/octocatalog-diff.git
@@ -24,7 +23,6 @@ Depends: ruby | ruby-interpreter,
          ruby-diffy,
          ruby-hashdiff,
          ruby-httparty (>= 0.11.0),
-         ruby-parallel (>= 1.9.0),
          ruby-rugged,
          ${misc:Depends},
          ${shlibs:Depends}
