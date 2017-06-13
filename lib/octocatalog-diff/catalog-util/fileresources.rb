@@ -86,7 +86,12 @@ module OctocatalogDiff
         resources.map! do |resource|
           if resource_convertible?(resource)
             path = file_path(resource['parameters']['source'], modulepaths)
-            raise Errno::ENOENT, "Unable to resolve '#{resource['parameters']['source']}'!" if path.nil?
+            if path.nil?
+              # Pass this through as a wrapped exception, because it's more likely to be something wrong
+              # in the catalog itself than it is to be a broken setup of octocatalog-diff.
+              message = "Errno::ENOENT: Unable to resolve '#{resource['parameters']['source']}'!"
+              raise OctocatalogDiff::Errors::CatalogError, message
+            end
 
             if File.file?(path)
               # If the file is found, read its content. If the content is all ASCII, substitute it into
@@ -117,6 +122,7 @@ module OctocatalogDiff
       # @return [Boolean] True of resource is convertible, false if not
       def self.resource_convertible?(resource)
         return true if resource['type'] == 'File' && \
+                       !resource['parameters'].nil? && \
                        resource['parameters'].key?('source') && \
                        !resource['parameters'].key?('content') && \
                        resource['parameters']['source'] =~ %r{^puppet:///modules/([^/]+)/(.+)}

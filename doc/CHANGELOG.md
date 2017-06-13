@@ -8,6 +8,59 @@
 </tr>
 </thead><tbody>
 <tr valign=top>
+<td>1.3.0</td>
+<td>2017-06-09</td>
+<td>
+<li><a href="https://github.com/github/octocatalog-diff/pull/121">#121</a>: (Enhancement) Allow different fact files for the "from" and "to" catalogs</li>
+<li><a href="https://github.com/github/octocatalog-diff/pull/129">#129</a>: (Enhancement) Allow YAML facts in "facter -y" format</li>
+<li><a href="https://github.com/github/octocatalog-diff/pull/126">#126</a>: (Enhancement) Allow saving of catalogs when catalog diffing</li>
+<li><a href="https://github.com/github/octocatalog-diff/pull/122">#122</a>: (Bug) Handle File resources with no parameters</li>
+<li><a href="https://github.com/github/octocatalog-diff/pull/125">#125</a>: (Bug) Fix error when parameters with integer values are added</li>
+<li><a href="https://github.com/github/octocatalog-diff/pull/131">#131</a>: (Bug) Do not use override fact file for both catalogs when only `--to-fact-file` is specified</li>
+</td>
+</tr>
+<tr valign=top>
+<td>1.2.0</td>
+<td>2017-05-18</td>
+<td>
+<li><a href="https://github.com/github/octocatalog-diff/pull/112">#112</a>: Split arguments added for ENC</li>
+<li><a href="https://github.com/github/octocatalog-diff/pull/113">#113</a>: (Enhancement) Override facts and ENC parameters using regular expressions</li>
+<li><a href="https://github.com/github/octocatalog-diff/pull/103">#111</a>: Simplify parallel processing to solve some intermittent failures</li>
+<li><a href="https://github.com/github/octocatalog-diff/pull/110">#110</a>: Ruby 2.4 compatibility</li>
+</td>
+</tr>
+<tr valign=top>
+<td>1.1.0</td>
+<td>2017-05-08</td>
+<td>
+<li><a href="https://github.com/github/octocatalog-diff/pull/108">#108</a>: (Bug) Support hiera.yaml backend declared as a string instead of array</li>
+<li><a href="https://github.com/github/octocatalog-diff/pull/105">#105</a>: (Bug) Remove legacy exclusion of tags</li>
+<li><a href="https://github.com/github/octocatalog-diff/pull/103">#103</a>: (Enhancement) Identify where the broken reference was declared</li>
+<li><a href="https://github.com/github/octocatalog-diff/pull/98">#98</a>: (Enhancement) Separate scripts and commands and make override-able</li>
+</td>
+</tr>
+<tr valign=top>
+<td>1.0.4</td>
+<td>2017-03-17</td>
+<td>
+<li><a href="https://github.com/github/octocatalog-diff/pull/94">#94</a>: Make Puppet version check respect env vars</li>
+</td>
+</tr>
+<tr valign=top>
+<td>1.0.3</td>
+<td>2017-03-15</td>
+<td>
+<li><a href="https://github.com/github/octocatalog-diff/pull/86">#86</a>: Ability to use `--environment` without `--preserve-environments`</li>
+</td>
+</tr>
+<tr valign=top>
+<td>1.0.2</td>
+<td>2017-03-08</td>
+<td>
+<li><a href="https://github.com/github/octocatalog-diff/pull/91">#91</a>: `--no-truncate-details` option</li>
+</td>
+</tr>
+<tr valign=top>
 <td>1.0.1</td>
 <td>2017-02-14</td>
 <td>

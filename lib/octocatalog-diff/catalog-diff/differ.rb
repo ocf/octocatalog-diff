@@ -8,6 +8,7 @@ require 'stringio'
 
 require_relative '../catalog'
 require_relative '../errors'
+require_relative '../util/util'
 require_relative 'filter'
 
 module OctocatalogDiff
@@ -266,11 +267,8 @@ module OctocatalogDiff
               hsh[k] = cleansed_param unless cleansed_param.nil? || cleansed_param.empty?
             elsif k == 'tags'
               # The order of tags is unimportant. Sort this array to avoid false diffs if order changes.
-              # Also if tags is empty, don't add. Most uses of catalog diff will want to ignore tags,
-              # and if you're ignoring tags you won't get here anyway. Also, don't add empty array of tags.
-              unless @opts[:ignore_tags]
-                hsh[k] = v.sort if v.is_a?(Array) && v.any?
-              end
+              # Also if tags is empty, don't add.
+              hsh[k] = v.sort if v.is_a?(Array) && v.any?
             elsif k == 'file' || k == 'line'
               # We don't care, for the purposes of catalog-diff, from which manifest and line this resource originated.
               # However, we may report this to the user, so we will keep it in here for now.
@@ -533,7 +531,8 @@ module OctocatalogDiff
 
           # Added a new key that points to some kind of data structure that we know how
           # to handle.
-          if obj[1] =~ /^(.+)\f([^\f]+)$/ && [String, Fixnum, Float, TrueClass, FalseClass, Array, Hash].include?(obj[2].class)
+          classes = [String, Integer, Float, TrueClass, FalseClass, Array, Hash]
+          if obj[1] =~ /^(.+)\f([^\f]+)$/ && OctocatalogDiff::Util::Util.object_is_any_of?(obj[2], classes)
             hashdiff_add_remove.add(obj[1])
             next
           end
