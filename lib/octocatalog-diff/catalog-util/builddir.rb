@@ -21,7 +21,7 @@ module OctocatalogDiff
       # Constructor
       # Options for constructor:
       # :puppetdb_url [String] PuppetDB Server URLs
-      # :puppetdb_server_url_timeout [Fixnum] Timeout (seconds) for puppetdb.conf
+      # :puppetdb_server_url_timeout [Integer] Timeout (seconds) for puppetdb.conf
       # :facts [OctocatalogDiff::Facts] Facts object
       # :fact_file [String] File from which to read facts
       # :node [String] Node name
@@ -84,11 +84,14 @@ module OctocatalogDiff
             install_directory_symlink(logger, File.join(@options[:basedir], x), x)
           end
         else
-          if @options[:environment]
-            logger.warn '--environment is ignored unless --preserve-environments is used' unless logger.nil?
-          end
-          if @options[:create_symlinks]
+          if @options[:create_symlinks] && @options[:environment]
+            unless logger.nil?
+              logger.warn '--create-symlinks with --environment ignored unless --preserve-environments is used'
+            end
+          elsif @options[:create_symlinks]
             logger.warn '--create-symlinks is ignored unless --preserve-environments is used' unless logger.nil?
+          elsif @options[:environment]
+            return install_directory_symlink(logger, @options[:basedir], "environments/#{@options[:environment]}")
           end
           install_directory_symlink(logger, @options[:basedir])
         end
@@ -96,14 +99,14 @@ module OctocatalogDiff
 
       # Install puppetdb.conf file in temporary directory
       # @param server_urls [String] String for server_urls in puppetdb.conf
-      # @param server_url_timeout [Fixnum] Value for server_url_timeout in puppetdb.conf
+      # @param server_url_timeout [Integer] Value for server_url_timeout in puppetdb.conf
       def install_puppetdb_conf(logger, server_urls, server_url_timeout = 30)
         unless server_urls.is_a?(String)
           raise ArgumentError, "server_urls must be a string, got a: #{server_urls.class}"
         end
 
         server_url_timeout ||= 30 # If called with nil argument, supply default
-        unless server_url_timeout.is_a?(Fixnum)
+        unless server_url_timeout.is_a?(Integer)
           raise ArgumentError, "server_url_timeout must be a fixnum, got a: #{server_url_timeout.class}"
         end
 
@@ -160,9 +163,12 @@ module OctocatalogDiff
 
         if options[:fact_override].is_a?(Array)
           options[:fact_override].each do |override|
-            old_value = facts.fact(override.key)
-            facts.override(override.key, override.value)
-            logger.debug("Override #{override.key} from #{old_value.inspect} to #{override.value.inspect}")
+            keys = override.key.is_a?(Regexp) ? facts.matching(override.key) : [override.key]
+            keys.each do |key|
+              old_value = facts.fact(key)
+              facts.override(key, override.value)
+              logger.debug("Override #{key} from #{old_value.inspect} to #{override.value.inspect}")
+            end
           end
         end
 
@@ -178,6 +184,7 @@ module OctocatalogDiff
       def install_directory_symlink(logger, dir, target = 'environments/production')
         raise ArgumentError, "Called install_directory_symlink with #{dir.class} argument" unless dir.is_a?(String)
         raise Errno::ENOENT, "Specified directory #{dir} doesn't exist" unless File.directory?(dir)
+
         symlink_target = File.join(@tempdir, target)
 
         if target =~ %r{/}
@@ -230,7 +237,7 @@ module OctocatalogDiff
 
         # Munge datadir in hiera config file
         obj = YAML.load_file(file_src)
-        (obj[:backends] || %w(yaml json)).each do |key|
+        ([obj[:backends]].flatten || %w(yaml json)).each do |key|
           next unless obj.key?(key.to_sym)
           if options[:hiera_path_strip].is_a?(String)
             next if obj[key.to_sym][:datadir].nil?
@@ -330,7 +337,7 @@ module OctocatalogDiff
       end
 
       def environment
-        @options[:preserve_environments] ? @options.fetch(:environment, 'production') : 'production'
+        @options.fetch(:environment, 'production')
       end
     end
   end

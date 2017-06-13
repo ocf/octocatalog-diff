@@ -74,16 +74,19 @@ module OctocatalogDiff
           if result.status
             logger.debug("Success bootstrap_directory for #{result.args[:tag]}")
           else
+            # Believed to be a bug condition, since error should have already been raised if this happens.
+            # :nocov:
             errmsg = "Failed bootstrap_directory for #{result.args[:tag]}: #{result.exception.class} #{result.exception.message}"
             raise OctocatalogDiff::Errors::BootstrapError, errmsg
+            # :nocov:
           end
         end
       end
 
       # Performs the actual bootstrap of a directory. Intended to be called by bootstrap_directory_parallelizer
       # above, or as part of the parallelized catalog build process from util/catalogs.
+      # @param options [Hash] Directory options: branch, path, tag
       # @param logger [Logger] Logger object
-      # @param dir_opts [Hash] Directory options: branch, path, tag
       def self.bootstrap_directory(options, logger)
         raise ArgumentError, ':path must be supplied' unless options[:path]
         FileUtils.mkdir_p(options[:path]) unless Dir.exist?(options[:path])
@@ -96,11 +99,11 @@ module OctocatalogDiff
 
       # Perform git checkout
       # @param logger [Logger] Logger object
-      # @param dir_opts [Hash] Directory options: branch, path, tag
-      def self.git_checkout(logger, dir_opts)
-        logger.debug("Begin git checkout #{dir_opts[:basedir]}:#{dir_opts[:branch]} -> #{dir_opts[:path]}")
-        OctocatalogDiff::CatalogUtil::Git.check_out_git_archive(dir_opts.merge(logger: logger))
-        logger.debug("Success git checkout #{dir_opts[:basedir]}:#{dir_opts[:branch]} -> #{dir_opts[:path]}")
+      # @param options [Hash] Options (need to contain: basedir, branch, path)
+      def self.git_checkout(logger, options)
+        logger.debug("Begin git checkout #{options[:basedir]}:#{options[:branch]} -> #{options[:path]}")
+        OctocatalogDiff::CatalogUtil::Git.check_out_git_archive(options.merge(logger: logger))
+        logger.debug("Success git checkout #{options[:basedir]}:#{options[:branch]} -> #{options[:path]}")
       rescue OctocatalogDiff::Errors::GitCheckoutError => exc
         logger.error("Git checkout error: #{exc}")
         raise OctocatalogDiff::Errors::BootstrapError, exc

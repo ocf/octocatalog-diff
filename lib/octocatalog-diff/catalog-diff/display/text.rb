@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 require_relative '../display'
-require_relative '../../util/colored.rb'
+require_relative '../../util/colored'
+require_relative '../../util/util'
 
 require 'diffy'
 require 'json'
@@ -168,13 +169,14 @@ module OctocatalogDiff
           result = []
           add_source_file_line_info(item: item, result: result, new_loc: new_loc, options: options, logger: logger)
           if options[:display_detail_add] && diff.key?('parameters')
+            limit = options.fetch(:truncate_details, true) ? 80 : nil
             result << "+ #{item} =>".green
             result << '   parameters =>'.green
             result.concat(
               diff_two_hashes_with_diffy(
                 depth: 1,
                 hash2: Hash[diff['parameters'].sort], # Should work with somewhat older rubies too
-                limit: 80,
+                limit: limit,
                 strip_diff: true
               ).map(&:green)
             )
@@ -254,7 +256,7 @@ module OctocatalogDiff
         # Get the diff of two long strings. Call the 'diffy' gem for this.
         # @param string1 [String] First string (-)
         # @param string2 [String] Second string (+)
-        # @param depth [Fixnum] Depth, for correct indentation
+        # @param depth [Integer] Depth, for correct indentation
         # @return Array<String> Displayable result
         def self.diff_two_strings_with_diffy(string1, string2, depth)
           # Single line strings?
@@ -323,16 +325,19 @@ module OctocatalogDiff
         # Get the diff of two hashes. Call the 'diffy' gem for this.
         # @param hash1 [Hash] First hash (-)
         # @param hash1 [Hash] Second hash (+)
-        # @param depth [Fixnum] Depth, for correct indentation
-        # @param limit [Fixnum] Maximum string length
+        # @param depth [Integer] Depth, for correct indentation
+        # @param limit [Integer] Maximum string length
         # @param strip_diff [Boolean] Strip leading +/-/" "
-        # @return Array<String> Displayable result
+        # @return [Array<String>] Displayable result
         def self.diff_two_hashes_with_diffy(opts = {})
           depth = opts.fetch(:depth, 0)
           hash1 = opts.fetch(:hash1, {})
           hash2 = opts.fetch(:hash2, {})
           limit = opts[:limit]
           strip_diff = opts.fetch(:strip_diff, false)
+
+          # Special case: addition only, no truncation
+          return addition_only_no_truncation(depth, hash2) if hash1 == {} && limit.nil?
 
           json_old = stringify_for_diffy(hash1)
           json_new = stringify_for_diffy(hash2)
@@ -353,9 +358,33 @@ module OctocatalogDiff
           end
         end
 
+        # Special case: addition only, no truncation
+        # @param depth [Integer] Depth, for correct indentation
+        # @param hash [Hash] Added object
+        # @return [Array<String>] Displayable result
+        def self.addition_only_no_truncation(depth, hash)
+          result = []
+
+          # Single line strings
+          hash.keys.sort.map do |key|
+            next if hash[key] =~ /\n/
+            result << left_pad(2 * depth + 4, [key.inspect, ': ', hash[key].inspect].join('')).green
+          end
+
+          # Multi-line strings
+          hash.keys.sort.map do |key|
+            next if hash[key] !~ /\n/
+            result << left_pad(2 * depth + 4, [key.inspect, ': >>>'].join('')).green
+            result.concat hash[key].split(/\n/).map(&:green)
+            result << '<<<'.green
+          end
+
+          result
+        end
+
         # Limit length of a string
         # @param str [String] String
-        # @param limit [Fixnum] Limit (0=unlimited)
+        # @param limit [Integer] Limit (0=unlimited)
         # @return [String] Truncated string
         def self.truncate_string(str, limit)
           return str if limit.nil? || str.length <= limit
@@ -364,7 +393,7 @@ module OctocatalogDiff
 
         # Get the diff between two hashes. This is recursive-aware.
         # @param obj [diff object] diff object
-        # @param depth [Fixnum] Depth of nesting, used for indentation
+        # @param depth [Integer] Depth of nesting, used for indentation
         # @return Array<String> Printable diff outputs
         def self.hash_diff(obj, depth, key_in, nested = false)
           result = []
@@ -389,7 +418,7 @@ module OctocatalogDiff
         end
 
         # Get the diff between two arbitrary objects
-        # @param depth [Fixnum] Depth of nesting, used for indentation
+        # @param depth [Integer] Depth of nesting, used for indentation
         # @param old_obj [?] Old object
         # @param new_obj [?] New object
         # @return Array<String> Diff output
@@ -404,10 +433,19 @@ module OctocatalogDiff
 
         # Utility Method!
         # Indent a given text string with a certain number of spaces
-        # @param spaces [Fixnum] Number of spaces
+        # @param spaces [Integer] Number of spaces
         # @param text [String] Text
         def self.left_pad(spaces, text = '')
           [' ' * spaces, text].join('')
+        end
+
+        # Utility Method!
+        # Harmonize equivalent class names for comparison purposes.
+        # @param class_name [String] Class name as input
+        # @return [String] Class name as output
+        def self.class_name_for_diffy(class_name)
+          return 'Integer' if class_name == 'Fixnum'
+          class_name
         end
 
         # Utility Method!
@@ -417,10 +455,10 @@ module OctocatalogDiff
         # @param obj [?] Object to be stringified
         # @return [String] String representation of object for diffy
         def self.stringify_for_diffy(obj)
-          return JSON.pretty_generate(obj) if [Hash, Array].include?(obj.class)
+          return JSON.pretty_generate(obj) if OctocatalogDiff::Util::Util.object_is_any_of?(obj, [Hash, Array])
           return '""' if obj.is_a?(String) && obj == ''
-          return obj if [String, Fixnum, Float].include?(obj.class)
-          "#{obj.class}: #{obj.inspect}"
+          return obj if OctocatalogDiff::Util::Util.object_is_any_of?(obj, [String, Fixnum, Integer, Float])
+          "#{class_name_for_diffy(obj.class)}: #{obj.inspect}"
         end
 
         # Utility Method!
@@ -484,8 +522,8 @@ module OctocatalogDiff
           return ['""', 'undef'] if obj2.nil?
 
           # If one is an integer and the other is a string
-          return [obj1, "\"#{obj2}\""] if obj1.is_a?(Fixnum) && obj2.is_a?(String)
-          return ["\"#{obj1}\"", obj2] if obj1.is_a?(String) && obj2.is_a?(Fixnum)
+          return [obj1, "\"#{obj2}\""] if obj1.is_a?(Integer) && obj2.is_a?(String)
+          return ["\"#{obj1}\"", obj2] if obj1.is_a?(String) && obj2.is_a?(Integer)
 
           # True and false
           return [obj1, "\"#{obj2}\""] if obj1.is_a?(TrueClass) && obj2.is_a?(String)

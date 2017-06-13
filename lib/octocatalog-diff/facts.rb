@@ -4,6 +4,7 @@ require_relative 'errors'
 require_relative 'facts/json'
 require_relative 'facts/yaml'
 require_relative 'facts/puppetdb'
+require_relative 'util/util'
 require_relative 'external/pson/pure'
 
 module OctocatalogDiff
@@ -19,8 +20,7 @@ module OctocatalogDiff
       @timestamp = false
       @options = options.dup
       if facts
-        @facts = {}
-        facts.each { |k, v| @facts[k] = v.dup }
+        @facts = OctocatalogDiff::Util::Util.deep_dup(facts)
       else
         case options[:backend]
         when :json
@@ -32,13 +32,21 @@ module OctocatalogDiff
         else
           raise ArgumentError, 'Invalid fact source backend'
         end
-        @facts = {}
-        @orig_facts.each { |k, v| @facts[k] = v.dup }
+        @facts = OctocatalogDiff::Util::Util.deep_dup(@orig_facts)
       end
     end
 
     def dup
       self.class.new(@options, @orig_facts)
+    end
+
+    # Node - get the node name, either as set explicitly or as determined from the facts themselves.
+    # @return [String] Node name, explicit or guessed
+    def node
+      return @node unless @node.nil? || @node.empty?
+      return facts['name'] if facts.key?('name')
+      return facts['values']['fqdn'] if facts.key?('values') && facts['values'].key?('fqdn')
+      ''
     end
 
     # Facts - returned the 'cleansed' facts.
@@ -119,6 +127,13 @@ module OctocatalogDiff
       else
         @facts['values'][key] = value
       end
+    end
+
+    # Find all facts matching a particular pattern
+    # @param regex [Regexp] Regular expression to match
+    # @return [Array<String>] Facts that match the regexp
+    def matching(regex)
+      @facts['values'].keys.select { |fact| regex.match(fact) }
     end
   end
 end
