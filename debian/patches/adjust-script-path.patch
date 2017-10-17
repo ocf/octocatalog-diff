@@ -1,0 +1,16 @@
+Author: Apollon Oikonomopoulos <apoikos@debian.org>
+Description: Search for scripts under /usr/share/octocatalog-diff
+ ... rather than /usr/lib/ruby/scripts
+Last-Update: 2017-10-17
+Forwarded: no (Debian-specific)
+--- a/lib/octocatalog-diff/util/scriptrunner.rb
++++ b/lib/octocatalog-diff/util/scriptrunner.rb
+@@ -113,7 +113,7 @@
+       # @return [String] Full path to script
+       def find_script(default_script, override_script_path = nil)
+         script = find_script_from_override_path(default_script, override_script_path) ||
+-                 File.expand_path("../../../scripts/#{default_script}", File.dirname(__FILE__))
++                 "/usr/share/octocatalog-diff/scripts/#{default_script}"
+         raise Errno::ENOENT, "Unable to locate script '#{script}'" unless File.file?(script)
+         script
+       end

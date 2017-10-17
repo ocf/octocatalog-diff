@@ -15,3 +15,7 @@ override_dh_auto_install:
 
 override_dh_installdocs:
 	dh_installdocs -Xdev/ -XCHANGELOG.md
+
+override_dh_install:
+	dh_install
+	find $(CURDIR)/debian/octocatalog-diff/usr/share/octocatalog-diff/scripts -type f -exec chmod +x {} \;
