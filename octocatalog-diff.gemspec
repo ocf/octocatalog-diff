@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "octocatalog-diff"
-  s.version = "1.3.0"
+  s.version = "1.4.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["GitHub, Inc.", "Kevin Paulisse"]
-  s.date = "2017-06-09"
+  s.date = "2017-10-02"
   s.description = "Octocatalog-Diff assists with Puppet development and testing by enabling the user to\ncompile 2 Puppet catalogs and compare them. It is possible to compare different\nbranches, different versions, and different fact values. This is intended to be run\nfrom a local development environment or in CI.\n"
   s.email = "opensource+octocatalog-diff@github.com"
   s.executables = ["octocatalog-diff"]
@@ -25,47 +25,50 @@ Gem::Specification.new do |s|
     s.specification_version = 4
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+      s.add_development_dependency(%q<bundler>, ["= 1.15.4"])
       s.add_runtime_dependency(%q<diffy>, [">= 3.1.0"])
       s.add_runtime_dependency(%q<hashdiff>, [">= 0.3.0"])
       s.add_runtime_dependency(%q<httparty>, [">= 0.11.0"])
       s.add_development_dependency(%q<parallel_tests>, ["= 2.7.1"])
-      s.add_development_dependency(%q<puppet>, ["~> 4.10.0"])
+      s.add_development_dependency(%q<puppet>, ["~> 4.10.8"])
       s.add_development_dependency(%q<puppetdb-terminus>, ["= 3.2.4"])
       s.add_development_dependency(%q<rake>, ["= 11.2.2"])
       s.add_development_dependency(%q<rspec>, ["~> 3.4.0"])
       s.add_development_dependency(%q<rspec-retry>, ["= 0.5.0"])
       s.add_development_dependency(%q<rubocop>, ["= 0.48.1"])
       s.add_runtime_dependency(%q<rugged>, [">= 0.25.0b2"])
-      s.add_development_dependency(%q<simplecov>, [">= 0.14.1"])
+      s.add_development_dependency(%q<simplecov>, ["~> 0.14.1"])
       s.add_development_dependency(%q<simplecov-json>, [">= 0"])
     else
+      s.add_dependency(%q<bundler>, ["= 1.15.4"])
       s.add_dependency(%q<diffy>, [">= 3.1.0"])
       s.add_dependency(%q<hashdiff>, [">= 0.3.0"])
       s.add_dependency(%q<httparty>, [">= 0.11.0"])
       s.add_dependency(%q<parallel_tests>, ["= 2.7.1"])
-      s.add_dependency(%q<puppet>, ["~> 4.10.0"])
+      s.add_dependency(%q<puppet>, ["~> 4.10.8"])
       s.add_dependency(%q<puppetdb-terminus>, ["= 3.2.4"])
       s.add_dependency(%q<rake>, ["= 11.2.2"])
       s.add_dependency(%q<rspec>, ["~> 3.4.0"])
       s.add_dependency(%q<rspec-retry>, ["= 0.5.0"])
       s.add_dependency(%q<rubocop>, ["= 0.48.1"])
       s.add_dependency(%q<rugged>, [">= 0.25.0b2"])
-      s.add_dependency(%q<simplecov>, [">= 0.14.1"])
+      s.add_dependency(%q<simplecov>, ["~> 0.14.1"])
       s.add_dependency(%q<simplecov-json>, [">= 0"])
     end
   else
+    s.add_dependency(%q<bundler>, ["= 1.15.4"])
     s.add_dependency(%q<diffy>, [">= 3.1.0"])
     s.add_dependency(%q<hashdiff>, [">= 0.3.0"])
     s.add_dependency(%q<httparty>, [">= 0.11.0"])
     s.add_dependency(%q<parallel_tests>, ["= 2.7.1"])
-    s.add_dependency(%q<puppet>, ["~> 4.10.0"])
+    s.add_dependency(%q<puppet>, ["~> 4.10.8"])
     s.add_dependency(%q<puppetdb-terminus>, ["= 3.2.4"])
     s.add_dependency(%q<rake>, ["= 11.2.2"])
     s.add_dependency(%q<rspec>, ["~> 3.4.0"])
     s.add_dependency(%q<rspec-retry>, ["= 0.5.0"])
     s.add_dependency(%q<rubocop>, ["= 0.48.1"])
     s.add_dependency(%q<rugged>, [">= 0.25.0b2"])
-    s.add_dependency(%q<simplecov>, [">= 0.14.1"])
+    s.add_dependency(%q<simplecov>, ["~> 0.14.1"])
     s.add_dependency(%q<simplecov-json>, [">= 0"])
   end
 end
