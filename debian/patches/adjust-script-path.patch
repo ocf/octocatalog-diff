@@ -5,7 +5,7 @@ Last-Update: 2017-10-17
 Forwarded: no (Debian-specific)
 --- a/lib/octocatalog-diff/util/scriptrunner.rb
 +++ b/lib/octocatalog-diff/util/scriptrunner.rb
-@@ -113,7 +113,7 @@
+@@ -108,7 +108,7 @@
        # @return [String] Full path to script
        def find_script(default_script, override_script_path = nil)
          script = find_script_from_override_path(default_script, override_script_path) ||
