@@ -25,7 +25,7 @@ License: Apache-2.0
  found at /usr/share/common-licenses/Apache-2.0.
 
 Files: debian/*
-Copyright: 2017 Apollon Oikonomopoulos <apoikos@debian.org>
+Copyright: 2017-2019 Apollon Oikonomopoulos <apoikos@debian.org>
 License: MIT/X11
 
 License: MIT/X11
