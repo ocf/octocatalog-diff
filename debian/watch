@@ -1,2 +1,2 @@
-version=3
-https://pkg-ruby-extras.alioth.debian.org/cgi-bin/gemwatch/octocatalog-diff .*/octocatalog-diff-(.*).tar.gz
+version=4
+https://gemwatch.debian.net/octocatalog-diff .*/octocatalog-diff-(.*).tar.gz
