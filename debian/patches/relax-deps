@@ -1,59 +1,43 @@
-Author: Apollon Oikonomopoulos <apoikos@debian.org>
-Description: Relax dependency versions
-Last-Update: 2018-03-08
-Forwarded: no
+From a0c02ed66b0baee7a265a9209cb9b7807ffe7306 Mon Sep 17 00:00:00 2001
+From: Apollon Oikonomopoulos <apoikos@debian.org>
+Date: Mon, 14 Jan 2019 22:41:32 +0200
+Subject: [PATCH] Relax dependency on hashdiff
+
+---
+ octocatalog-diff.gemspec | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/octocatalog-diff.gemspec b/octocatalog-diff.gemspec
+index 9f7951e..7cc05fc 100644
 --- a/octocatalog-diff.gemspec
 +++ b/octocatalog-diff.gemspec
-@@ -25,8 +25,8 @@
-     s.specification_version = 4
+@@ -27,7 +27,7 @@ Gem::Specification.new do |s|
  
      if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
--      s.add_runtime_dependency(%q<diffy>, [">= 3.1.0"])
--      s.add_runtime_dependency(%q<hashdiff>, [">= 0.3.0"])
-+      s.add_runtime_dependency(%q<diffy>, [">= 3.0.6"])
-+      s.add_runtime_dependency(%q<hashdiff>, [">= 0.2.3"])
-       s.add_runtime_dependency(%q<httparty>, [">= 0.11.0"])
-       s.add_development_dependency(%q<parallel_tests>, ["= 2.7.1"])
-       s.add_development_dependency(%q<puppet>, ["~> 5.4.0"])
-@@ -34,12 +34,12 @@
-       s.add_development_dependency(%q<rspec>, ["~> 3.4.0"])
-       s.add_development_dependency(%q<rspec-retry>, ["= 0.5.0"])
-       s.add_development_dependency(%q<rubocop>, ["= 0.48.1"])
--      s.add_runtime_dependency(%q<rugged>, [">= 0.25.0b2"])
-+      s.add_runtime_dependency(%q<rugged>, [">= 0.24.0"])
-       s.add_development_dependency(%q<simplecov>, ["~> 0.14.1"])
-       s.add_development_dependency(%q<simplecov-erb>, ["~> 0.1.1"])
+       s.add_runtime_dependency(%q<diffy>.freeze, [">= 3.1.0"])
+-      s.add_runtime_dependency(%q<hashdiff>.freeze, [">= 0.3.0"])
++      s.add_runtime_dependency(%q<hashdiff>.freeze, [">= 0.2.3"])
+       s.add_runtime_dependency(%q<httparty>.freeze, [">= 0.11.0"])
+       s.add_runtime_dependency(%q<parallel>.freeze, [">= 1.12.0"])
+       s.add_development_dependency(%q<parallel_tests>.freeze, ["= 2.7.1"])
+@@ -41,7 +41,7 @@ Gem::Specification.new do |s|
+       s.add_development_dependency(%q<simplecov-erb>.freeze, ["~> 0.1.1"])
      else
--      s.add_dependency(%q<diffy>, [">= 3.1.0"])
--      s.add_dependency(%q<hashdiff>, [">= 0.3.0"])
-+      s.add_dependency(%q<diffy>, [">= 3.0.6"])
-+      s.add_dependency(%q<hashdiff>, [">= 0.2.3"])
-       s.add_dependency(%q<httparty>, [">= 0.11.0"])
-       s.add_dependency(%q<parallel_tests>, ["= 2.7.1"])
-       s.add_dependency(%q<puppet>, ["~> 5.4.0"])
-@@ -47,13 +47,13 @@
-       s.add_dependency(%q<rspec>, ["~> 3.4.0"])
-       s.add_dependency(%q<rspec-retry>, ["= 0.5.0"])
-       s.add_dependency(%q<rubocop>, ["= 0.48.1"])
--      s.add_dependency(%q<rugged>, [">= 0.25.0b2"])
-+      s.add_dependency(%q<rugged>, [">= 0.24.0"])
-       s.add_dependency(%q<simplecov>, ["~> 0.14.1"])
-       s.add_dependency(%q<simplecov-erb>, ["~> 0.1.1"])
+       s.add_dependency(%q<diffy>.freeze, [">= 3.1.0"])
+-      s.add_dependency(%q<hashdiff>.freeze, [">= 0.3.0"])
++      s.add_dependency(%q<hashdiff>.freeze, [">= 0.2.3"])
+       s.add_dependency(%q<httparty>.freeze, [">= 0.11.0"])
+       s.add_dependency(%q<parallel>.freeze, [">= 1.12.0"])
+       s.add_dependency(%q<parallel_tests>.freeze, ["= 2.7.1"])
+@@ -56,7 +56,7 @@ Gem::Specification.new do |s|
      end
    else
--    s.add_dependency(%q<diffy>, [">= 3.1.0"])
--    s.add_dependency(%q<hashdiff>, [">= 0.3.0"])
-+    s.add_dependency(%q<diffy>, [">= 3.0.6"])
-+    s.add_dependency(%q<hashdiff>, [">= 0.2.3"])
-     s.add_dependency(%q<httparty>, [">= 0.11.0"])
-     s.add_dependency(%q<parallel_tests>, ["= 2.7.1"])
-     s.add_dependency(%q<puppet>, ["~> 5.4.0"])
-@@ -61,7 +61,7 @@
-     s.add_dependency(%q<rspec>, ["~> 3.4.0"])
-     s.add_dependency(%q<rspec-retry>, ["= 0.5.0"])
-     s.add_dependency(%q<rubocop>, ["= 0.48.1"])
--    s.add_dependency(%q<rugged>, [">= 0.25.0b2"])
-+    s.add_dependency(%q<rugged>, [">= 0.24.0"])
-     s.add_dependency(%q<simplecov>, ["~> 0.14.1"])
-     s.add_dependency(%q<simplecov-erb>, ["~> 0.1.1"])
-   end
+     s.add_dependency(%q<diffy>.freeze, [">= 3.1.0"])
+-    s.add_dependency(%q<hashdiff>.freeze, [">= 0.3.0"])
++    s.add_dependency(%q<hashdiff>.freeze, [">= 0.2.3"])
+     s.add_dependency(%q<httparty>.freeze, [">= 0.11.0"])
+     s.add_dependency(%q<parallel>.freeze, [">= 1.12.0"])
+     s.add_dependency(%q<parallel_tests>.freeze, ["= 2.7.1"])
+-- 
+2.19.2
+
