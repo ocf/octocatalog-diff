@@ -1,0 +1,19 @@
+--- a/lib/octocatalog-diff/catalog-util/command.rb
++++ b/lib/octocatalog-diff/catalog-util/command.rb
+@@ -56,7 +56,7 @@
+ 
+         # Node to compile
+         cmdline = []
+-        cmdline.concat ['master', '--compile', Shellwords.escape(@node)]
++        cmdline.concat ['catalog', 'compile', Shellwords.escape(@node)]
+ 
+         # storeconfigs?
+         if @options[:storeconfigs]
+@@ -95,7 +95,6 @@
+           --no-daemonize
+           --no-ca
+           --color=false
+-          --config_version="/bin/echo catalogscript"
+         )
+ 
+         # Add environment - only make this variable if preserve_environments is used.

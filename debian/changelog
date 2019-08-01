@@ -1,3 +1,9 @@
+octocatalog-diff (1.5.4-1ocf1) stretch; urgency=medium
+
+  * Patched by OCF to work with puppet 6.5+
+
+ -- Jason Perrin <jvperrin@ocf.berkeley.edu>  Thu, 01 Aug 2019 00:27:12 -0700
+
 octocatalog-diff (1.5.4-1) unstable; urgency=medium
 
   * New upstream release

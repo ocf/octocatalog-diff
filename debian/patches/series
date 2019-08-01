@@ -1,2 +1,3 @@
 relax-deps
 adjust-script-path.patch
+ocf-puppet-6.patch
