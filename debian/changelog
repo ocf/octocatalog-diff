@@ -1,3 +1,9 @@
+octocatalog-diff (1.5.4-1ocf2) stretch; urgency=medium
+
+  * Add to OCF patch to work with puppetdb storeconfigs
+
+ -- Jason Perrin <jvperrin@ocf.berkeley.edu>  Wed, 21 Aug 2019 01:49:49 -0700
+
 octocatalog-diff (1.5.4-1ocf1) stretch; urgency=medium
 
   * Patched by OCF to work with puppet 6.5+

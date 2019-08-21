@@ -17,3 +17,17 @@
          )
  
          # Add environment - only make this variable if preserve_environments is used.
+@@ -116,7 +115,13 @@
+         cmdline << "--vardir=#{Shellwords.escape(File.join(@compilation_dir, 'var'))}"
+         cmdline << "--logdir=#{Shellwords.escape(File.join(@compilation_dir, 'var'))}"
+         cmdline << "--ssldir=#{Shellwords.escape(File.join(@compilation_dir, 'var', 'ssl'))}"
++        cmdline << "--rundir=#{Shellwords.escape(File.join(@compilation_dir, 'var', 'run'))}"
+         cmdline << "--confdir=#{Shellwords.escape(@compilation_dir)}"
++        cmdline << "--codedir=#{Shellwords.escape(@compilation_dir)}"
++        # Since Puppet always looks for the key and cert in a file named after the hostname, determine the
++        # hostname here for the purposes of passing along the certname to compile the catalog
++        require 'socket'
++        cmdline << "--certname=#{Socket.gethostname}"
+ 
+         # Other parameters provided by the user
+         override_and_append_commandline_with_user_supplied_arguments(cmdline)
