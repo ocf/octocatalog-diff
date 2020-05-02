@@ -9,15 +9,16 @@
  
          # storeconfigs?
          if @options[:storeconfigs]
-@@ -95,7 +95,6 @@
+@@ -95,7 +95,7 @@
            --no-daemonize
            --no-ca
            --color=false
 -          --config_version="/bin/echo catalogscript"
++          --certificate_revocation=false
          )
  
          # Add environment - only make this variable if preserve_environments is used.
-@@ -116,7 +115,13 @@
+@@ -116,7 +116,13 @@
          cmdline << "--vardir=#{Shellwords.escape(File.join(@compilation_dir, 'var'))}"
          cmdline << "--logdir=#{Shellwords.escape(File.join(@compilation_dir, 'var'))}"
          cmdline << "--ssldir=#{Shellwords.escape(File.join(@compilation_dir, 'var', 'ssl'))}"
