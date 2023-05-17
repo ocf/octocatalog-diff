@@ -1,0 +1,27 @@
+octocatalog-diff (1.5.4-2ocf1) bullseye; urgency=medium
+
+  * Support Hashdiff 1.0.0
+
+ -- Jonathan Zhang <rjz@ocf.berkeley.edu>  Wed, 17 May 2023 12:29:58 -0700
+
+octocatalog-diff (1.5.4-1ocf3) stretch; urgency=medium
+
+  * Update OCF patch for puppetdb-termini 5.5.0+ CRL issues
+    (ocf/puppet#956)
+
+ -- Jason Perrin <jvperrin@ocf.berkeley.edu>  Sat, 02 May 2020 15:27:43 -0700
+
+octocatalog-diff (1.5.4-1ocf2) stretch; urgency=medium
+
+  * Add to OCF patch to work with puppetdb storeconfigs
+
+ -- Jason Perrin <jvperrin@ocf.berkeley.edu>  Wed, 21 Aug 2019 01:49:49 -0700
+
+octocatalog-diff (1.5.4-1ocf1) stretch; urgency=medium
+
+  * Patched by OCF to work with puppet 6.5+
+
+ -- Jason Perrin <jvperrin@ocf.berkeley.edu>  Thu, 01 Aug 2019 00:27:12 -0700
+
+# Older entries have been removed from this changelog.
+# To read the complete changelog use `apt changelog octocatalog-diff`.

@@ -1,0 +1,35 @@
+#!/usr/bin/ruby
+
+if ENV['OCTOCATALOG_DIFF_DEVELOPER_PATH']
+  # Mostly used for internal testing, to allow pointing of a "real" octocatalog-diff install
+  # at code being developed live.
+  rel = File.expand_path(ENV['OCTOCATALOG_DIFF_DEVELOPER_PATH'], File.dirname(__FILE__))
+  abs = File.expand_path(ENV['OCTOCATALOG_DIFF_DEVELOPER_PATH'])
+  if File.directory?(abs) && File.file?(File.join(abs, 'lib', 'octocatalog-diff.rb'))
+    require File.join(abs, 'lib', 'octocatalog-diff')
+  elsif File.directory?(rel) && File.file?(File.join(rel, 'lib', 'octocatalog-diff.rb'))
+    require File.join(rel, 'lib', 'octocatalog-diff')
+  else
+    raise Errno::ENOENT, "Unable to resolve #{ENV['OCTOCATALOG_DIFF_DEVELOPER_PATH']} (tried #{abs} then #{rel})"
+  end
+elsif File.file?(File.expand_path('../lib/octocatalog-diff.rb', File.dirname(__FILE__)))
+  require_relative '../lib/octocatalog-diff'
+else
+  require 'octocatalog-diff'
+end
+
+config_test = ARGV.include?('--config-test')
+
+logger = Logger.new(STDERR)
+logger.level = Logger::INFO
+logger.level = Logger::DEBUG if config_test
+
+options = OctocatalogDiff::API::V1.config(logger: logger, test: config_test)
+if config_test
+  logger.info 'Exiting now because --config-test was specified'
+  exit(0)
+end
+
+argv = ARGV.dup
+exit_code = OctocatalogDiff::Cli.cli(argv, Logger.new(STDERR), options)
+exit(exit_code)
